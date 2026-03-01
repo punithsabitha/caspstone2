@@ -3,64 +3,75 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Load dataset
-df = sns.load_dataset('penguins_size')
+# Get seaborn dataset names
+print(sns.get_dataset_names())
 
-# --- Basic Exploration ---
+# Load penguins dataset
+df = sns.load_dataset('penguins')
+
+# Display first 10 rows
 print(df.head(10))
-print(df.shape)
-print(df.tail())
-print(df.info())
-print(df.dtypes)
 
-# Missing values
+# Display shape
+print(df.shape)
+
+# Display last few rows
+print(df.tail())
+
+# Check for null values
 print(df.isnull().sum())
 
-# Summary statistics
-print(df.describe(include='all').T)
+# Display basic statistics
+print(df.describe())
 
+# Display data types
+print(df.dtypes)
 
-# --- Correlation & Heatmap ---
-plt.figure(figsize=(8,6))
-sns.heatmap(df.corr(numeric_only=True), cmap='Wistia', annot=True)
-plt.title("Correlation Heatmap")
+# Display dataset info
+print(df.info())
+
+# Display all statistics including categorical
+print(df.describe(include='all'))
+
+# Display correlation matrix
+print(df.corr())
+
+# Create heatmap of correlations
+sns.heatmap(df.corr(), annot=True)
 plt.show()
 
-# --- Histograms ---
-df.hist(figsize=(12,8))
-plt.suptitle("Distribution of Numeric Features")
+# Create histograms
+df.select_dtypes(include=[np.number]).hist(figsize=(12,8))
 plt.show()
 
-# --- Boxplots ---
-df.plot(kind='box', subplots=True, layout=(3,2), sharex=False, sharey=False,
-        figsize=(10,12))
-plt.suptitle("Boxplots of Features")
+# Create box plots
+df.select_dtypes(include=[np.number]).plot(kind='box', subplots=True, layout=(3,2), sharex=False, sharey=False, figsize=(8,12))
 plt.show()
 
-# --- Value counts ---
-print(df['sex'].value_counts())
-print(df['island'].value_counts())
-print(df['species'].value_counts())
+# Display value counts
+print(df.sex.value_counts())
+print(df.island.value_counts())
+print(df.species.value_counts())
 
-# --- Countplots ---
-sns.countplot(data=df, x='sex', palette='summer')
+# Create count plots
+sns.countplot(data=df, x='sex')
 plt.show()
 
-sns.countplot(data=df, x='island', palette='RdPu')
+sns.countplot(data=df, x='island')
 plt.show()
 
-sns.countplot(data=df, x='species', palette='YlOrRd')
+sns.countplot(data=df, x='species')
 plt.show()
 
-sns.countplot(data=df, x='sex', hue='species', palette='rocket')
+sns.countplot(data=df, x='sex', hue='species')
 plt.show()
 
-sns.countplot(data=df, x='island', hue='species', palette='husl')
+sns.countplot(data=df, x='island', hue='species')
 plt.show()
 
-sns.countplot(data=df, x='island', hue='sex', palette='spring')
+sns.countplot(data=df, x='island', hue='sex')
 plt.show()
 
-# ---- pairplot ----
-sns.pairplot(data=df, hue='species', palette='mako')
+# Create pairplot
+sns.pairplot(data=df, hue="species")
 plt.show()
